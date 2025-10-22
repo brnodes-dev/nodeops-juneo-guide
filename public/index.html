@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Juneo Validator - Backup & Node ID</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">JUNEO Validator — NodeOps UI</div>
+    
+    <div class="header-guide-notice">
+        <span class="warning-text-inline">🚨 IMPORTANT:</span> 
+        <a class="btn small header-btn" href="https://brnodes.medium.com/juneo-validator-with-nodeops-94c07f1562d9" target="_blank">
+            Access Setup & Management Guide
+        </a>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <section class="card nodeid">
+      <h3>Node Information & Status</h3>
+      
+      <div class="info-group">
+        <h4>Node ID</h4>
+        <div class="node-row">
+          <div>
+            <button class="btn get-node-data-btn" data-field="nodeID">Fetch Node ID</button>
+          </div>
+          <div id="nodeIDOutput" class="node-output">Click "Fetch Node ID" to get your validator ID.</div>
+        </div>
+      </div>
+      
+      <div class="info-group">
+        <h4>BLS Key (Public Key)</h4>
+        <div class="node-row">
+          <div>
+            <button class="btn get-node-data-btn" data-field="publicKey">Fetch BLS Key</button>
+          </div>
+          <div id="publicKeyOutput" class="node-output">Click to fetch your BLS Public Key.</div>
+        </div>
+      </div>
+
+      <div class="info-group">
+        <h4>BLS Signature (Proof of Possession)</h4>
+        <div class="node-row">
+          <div>
+            <button class="btn get-node-data-btn" data-field="proofOfPossession">Fetch BLS Signature</button>
+          </div>
+          <div id="proofOfPossessionOutput" class="node-output">Click to fetch your BLS Proof of Possession.</div>
+        </div>
+      </div>
+
+      <div class="info-group mt-16">
+        <h4>Node Process Control</h4>
+        <div class="grid">
+          <button id="startNode" class="btn small status-btn">Start Node</button>
+          <button id="stopNode" class="btn small file-action-btn">Stop Node</button>
+        </div>
+        <div id="processStatusOutput" class="node-output small muted">Status: Loading...</div>
+      </div>
+    </section>
+
+    <section class="card files">
+      <h2>🚨 Critical: Staking Files Backup</h2>
+      <p>
+        Your staking keys are critical to restore or operate your validator. <strong>Download them immediately</strong> and keep them safe offline.
+      </p>
+
+      <div class="file-row">
+        <div class="file-info"><strong>signer.key</strong><div class="hint">Signing key — needed to sign validator proposals</div></div>
+        <div><a class="btn file-action-btn" href="/download/signer.key">Download</a></div>
+      </div>
+
+      <div class="file-row">
+        <div class="file-info"><strong>staker.crt</strong><div class="hint">Staker certificate</div></div>
+        <div><a class="btn file-action-btn" href="/download/staker.crt">Download</a></div>
+      </div>
+
+      <div class="file-row no-border">
+        <div class="file-info"><strong>staker.key</strong><div class="hint">Staker private key</div></div>
+        <div><a class="btn file-action-btn" href="/download/staker.key">Download</a></div>
+      </div>
+    </section>
+    
+    <section class="card validator-setup">
+      <h2>🚀 Validator Setup & Staking</h2>
+      <p>
+        The Juneo Node is running, but you must complete the staking process using the official wallet.
+      </p>
+      
+      <div class="info-group">
+        <h4>Staking Requirements (Mainnet)</h4>
+        <ul class="requirements-list">
+            <li>Minimum Stake: <strong>100 JUNE</strong></li>
+            <li>Maximum Stake: <strong>30,000 JUNE</strong></li>
+            <li>Staking Period: <strong>14 to 365 days</strong></li>
+            <li>Delegator Fee: **12%** of their reward</li>
+        </ul>
+      </div>
+
+      <p class="warning-text">
+        **ACTION REQUIRED:** You need P-Chain funds to stake. Follow the wallet process to create your validator.
+      </p>
+
+      <div>
+        <a class="btn action-btn large-btn" href="https://juneowallet.io/" target="_blank">
+          Go to Juneo Wallet & Stake Now!
+        </a>
+      </div>
+    </section>
+
+    <section class="card restore-setup">
+      <h2>🔄 Node Restoration</h2>
+      <p>
+        If your validator fails or loses its NodeID, use this tool to upload your **backed-up staking files** and restore your original NodeID.
+        <br>
+        **WARNING:** The node must be **STOPPED** before proceeding.
+      </p>
+      
+      <form id="restoreForm" enctype="multipart/form-data">
+        <div class="file-upload-group">
+            <div class="file-row">
+                <label for="signer.key">Signer Key (`signer.key`):</label>
+                <input type="file" name="signer.key" id="signer.key">
+            </div>
+            <div class="file-row">
+                <label for="staker.crt">Staker Certificate (`staker.crt`):</label>
+                <input type="file" name="staker.crt" id="staker.crt">
+            </div>
+            <div class="file-row no-border">
+                <label for="staker.key">Staker Private Key (`staker.key`):</label>
+                <input type="file" name="staker.key" id="staker.key">
+            </div>
+        </div>
+        
+        <button type="submit" id="restoreNodeBtn" class="btn action-btn large-btn">
+          Upload Files & Restore NodeID
+        </button>
+      </form>
+      <div id="restoreMessage" class="node-output small muted" style="margin-top: 15px;"></div>
+    </section>
+
+    <footer class="footer">
+      <small>This UI runs the Juneo Node, performs backups, and manages the node process. **Staking and validator activation must be finalized through the official Juneo Wallet.**</small>
+    </footer>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
